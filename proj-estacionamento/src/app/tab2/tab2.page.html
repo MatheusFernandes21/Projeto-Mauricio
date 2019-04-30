@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Pagar
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-label>Entrada</ion-label>
+    <ion-datetime [(ngModel)]="entrada" display-format="HH:mm"></ion-datetime>
+    <ion-label>Saida</ion-label>
+    <ion-datetime [(ngModel)]="saida" display-format="HH:mm"></ion-datetime>
+    <ion-label>Total</ion-label>
+    <ion-input [(ngModel)]="reais" value="R$ 0,00" disabled></ion-input>
+    <ion-button type="button" (click)="Calcular()" class="btn btn-primary">Calcular</ion-button>
+    <ion-button type="button" (click)="Pagar()" class="btn btn-primary">Pagar</ion-button>
+</ion-content>
