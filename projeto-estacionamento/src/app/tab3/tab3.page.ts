@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EstacionamentoService } from '../services/estacionamento.service';
+import { EstacionamentoService } from '../service/estacionamento.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class Tab3Page {
   lista: any[];
-
+  
   constructor(public estacionamentoService: EstacionamentoService,
     private  router: Router) {
       this.lista = this.estacionamentoService.meusPagamentos;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EstacionamentoService } from '../services/estacionamento.service'
+import { EstacionamentoService } from '../service/estacionamento.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +12,9 @@ export class Tab1Page {
   ticket: any;
 
   constructor(public estacionamentoService: EstacionamentoService,
-    private  router: Router) { this.ticket = this.estacionamentoService.Iniciar(); }
+    private  router: Router) { 
+      this.ticket = this.estacionamentoService.Iniciar(); 
+    }
 
   Gerar(){
     this.ticket = this.estacionamentoService.Iniciar();

@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AngularFirestore, AngularFirestoreCollection, DocumentReference } from '@angular/fire/firestore';
+import {map, take} from 'rxjs/operators';
 
 class Pagamento {
   public ticket: any;
@@ -12,7 +15,21 @@ class Pagamento {
 })
 
 export class EstacionamentoService {
-  constructor() { }
+  pagamentos: Observable<Pagamento[]>
+  pagamentoCollection: AngularFirestoreCollection<Pagamento>;
+
+  constructor( private afs: AngularFirestore ) { 
+    this.pagamentoCollection = this.afs.collection<Pagamento>('ideas');
+    this.pagamentos = this.pagamentoCollection.snapshotChanges().pipe(
+      map( actions => {
+        return actions.map( a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return {id, ...data};
+        });
+      })
+    );
+  }
 
   meusPagamentos: Pagamento[] = new Array(); 
   novoPagamento: Pagamento;
@@ -20,6 +37,7 @@ export class EstacionamentoService {
   Iniciar(){
     this.novoPagamento = new Pagamento();
     this.novoPagamento.ticket = Math.floor(Math.random() * (9999-1));
+    
     return this.novoPagamento.ticket;
   }
 
@@ -42,5 +60,13 @@ export class EstacionamentoService {
     );  
 
     this.meusPagamentos.forEach(item => console.log(item))
+  }
+
+  addIdea(pagamento: Pagamento): Promise<DocumentReference>{
+    return this.pagamentoCollection.add(pagamento);
+  }
+
+  getIdeas(): Observable<Pagamento[]>{
+    return this.pagamentos;
   }
 }
